@@ -1,0 +1,39 @@
+{
+  "manifest_version": 3,
+  "name": "Betting Site Blocker",
+  "description": "Block betting sites",
+  "version": "1.0.0",
+  "permissions": ["declarativeNetRequest", "storage"],
+  "icons": {
+    "16": "icon16.png",
+    "19": "icon19.png",
+    "32": "icon32.png",
+    "38": "icon38.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "host_permissions": ["https://*/*", "http://*/*"],
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "block_betting_sites",
+        "enabled": true,
+        "path": "rules.json"
+      }
+    ]
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Betting Site Blocker"
+  },
+  "options_page": "options.html",
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["contentScript.js"]
+    }
+  ]
+}

@@ -1,0 +1,1 @@
+{"version":3,"file":"contentScript.js","mappings":"AAAA","sources":["webpack://betting-blocker/./src/contentScript/contentScript.ts"],"sourcesContent":["chrome.runtime.sendMessage(\"From the Content Script\", (response) => {\n    console.log(response);\n});\n"],"names":[],"sourceRoot":""}
