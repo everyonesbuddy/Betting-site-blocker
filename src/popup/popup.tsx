@@ -8,8 +8,10 @@ const Popup = () => {
   const [countdown, setCountdown] = useState<number | null>(null);
   const [timerRunning, setTimerRunning] = useState<boolean>(false);
   const [totalTime, setTotalTime] = useState<number | null>(null);
+  const [unblockCount, setUnblockCount] = useState<number>(0);
+  const maxUnblocks = 3;
 
-  // Fetch the list of blocked sites from the background script
+  // Fetch the list of blocked sites and other data from local storage
   useEffect(() => {
     chrome.runtime.sendMessage({ action: "getBlockedSites" }, (response) => {
       if (response && response.blockedSites) {
@@ -17,21 +19,37 @@ const Popup = () => {
       }
     });
 
-    // Fetch timer expiration and total duration from local storage
-    chrome.storage.local.get(["timerExpiration", "totalTime"], (result) => {
-      const currentTime = Date.now();
-      const timerExpiration = result.timerExpiration || 0;
-      const storedTotalTime = result.totalTime || null;
+    // Fetch timer expiration, total duration, and unblock count from local storage
+    chrome.storage.local.get(
+      ["timerExpiration", "totalTime", "unblockCount", "unblockResetTime"],
+      (result) => {
+        const currentTime = Date.now();
+        const timerExpiration = result.timerExpiration || 0;
+        const storedTotalTime = result.totalTime || null;
+        const storedUnblockCount = result.unblockCount || 0;
+        const unblockResetTime = result.unblockResetTime || 0;
 
-      if (timerExpiration > currentTime) {
-        const remainingTime = Math.floor(
-          (timerExpiration - currentTime) / 1000
-        );
-        setCountdown(remainingTime);
-        setTotalTime(storedTotalTime);
-        setTimerRunning(true);
+        // Reset unblock count if 24 hours have passed
+        if (currentTime > unblockResetTime) {
+          chrome.storage.local.set({
+            unblockCount: 0,
+            unblockResetTime: currentTime + 24 * 60 * 60 * 1000,
+          });
+          setUnblockCount(0);
+        } else {
+          setUnblockCount(storedUnblockCount);
+        }
+
+        if (timerExpiration > currentTime) {
+          const remainingTime = Math.floor(
+            (timerExpiration - currentTime) / 1000
+          );
+          setCountdown(remainingTime);
+          setTotalTime(storedTotalTime);
+          setTimerRunning(true);
+        }
       }
-    });
+    );
   }, []);
 
   // Handle countdown updates
@@ -50,6 +68,8 @@ const Popup = () => {
   }, [countdown]);
 
   const startTimer = (minutes: number) => {
+    if (unblockCount >= maxUnblocks) return;
+
     const seconds = minutes * 60;
     const expirationTime = Date.now() + seconds * 1000;
 
@@ -57,10 +77,23 @@ const Popup = () => {
     setTotalTime(seconds);
     setTimerRunning(true);
 
+    const newUnblockCount = unblockCount + 1;
+    setUnblockCount(newUnblockCount);
+
     chrome.runtime.sendMessage({ action: "startTimer", duration: seconds });
     chrome.storage.local.set({
       timerExpiration: expirationTime,
       totalTime: seconds,
+      unblockCount: newUnblockCount,
+    });
+
+    // Set/reset unblock reset time if it’s the first unblock of the day
+    chrome.storage.local.get(["unblockResetTime"], (result) => {
+      if (!result.unblockResetTime) {
+        chrome.storage.local.set({
+          unblockResetTime: Date.now() + 24 * 60 * 60 * 1000,
+        });
+      }
     });
   };
 
@@ -82,12 +115,43 @@ const Popup = () => {
         borderRadius: "12px",
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
         maxWidth: "400px",
-        margin: "40px auto",
+        margin: "20px auto",
       }}
     >
-      <h2 style={{ fontSize: "24px", marginBottom: "20px", color: "#333" }}>
-        Unblock Timer
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          position: "absolute",
+          top: "20px",
+          left: "10px",
+        }}
+      >
+        <img
+          src="https://i.ibb.co/ZWHMsct/hand.png"
+          alt="logo"
+          style={{ width: "24px", height: "24px", marginRight: "8px" }}
+        />
+        <span style={{ fontSize: "10px", color: "#333", fontWeight: "bold" }}>
+          Betting Site Blocker
+        </span>
+      </div>
+
+      <h2 style={{ fontSize: "12px", marginBottom: "20px", color: "#333" }}>
+        Stay in control by limiting access to gambling sites.{" "}
+        <a
+          href="https://bircheshealth.com/blocked-sites"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#007AFF", textDecoration: "none" }}
+        >
+          View Blocked Gambling Sites
+        </a>
       </h2>
+      <p style={{ fontSize: "14px", color: "#555", marginBottom: "10px" }}>
+        Unblocks remaining today: <strong>{maxUnblocks - unblockCount}</strong>/
+        {maxUnblocks}
+      </p>
       {!timerRunning ? (
         <div>
           {[5, 10].map((time) => (
@@ -96,19 +160,23 @@ const Popup = () => {
               style={{
                 padding: "12px 20px",
                 margin: "5px",
-                backgroundColor: "#007AFF",
+                backgroundColor:
+                  unblockCount >= maxUnblocks ? "#ccc" : "#007AFF",
                 color: "#fff",
                 border: "none",
                 borderRadius: "8px",
-                cursor: "pointer",
+                cursor: unblockCount >= maxUnblocks ? "not-allowed" : "pointer",
                 fontSize: "16px",
                 transition: "background-color 0.3s",
               }}
               onClick={() => startTimer(time)}
+              disabled={unblockCount >= maxUnblocks}
               onMouseOver={(e) =>
+                !(unblockCount >= maxUnblocks) &&
                 (e.currentTarget.style.backgroundColor = "#005FCA")
               }
               onMouseOut={(e) =>
+                !(unblockCount >= maxUnblocks) &&
                 (e.currentTarget.style.backgroundColor = "#007AFF")
               }
             >
@@ -237,6 +305,24 @@ const Popup = () => {
         >
           Support for Partners & Family
         </button>
+      </div>
+
+      <div
+        style={{
+          marginTop: "20px",
+          display: "flex",
+          justifyContent: "space-between",
+          fontSize: "14px",
+        }}
+      >
+        <a
+          href="https://bircheshealth.com/donate"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#007AFF", textDecoration: "none" }}
+        >
+          Donate
+        </a>
       </div>
     </div>
   );

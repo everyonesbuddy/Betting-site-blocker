@@ -15,7 +15,7 @@
         background: url("./pexels-corleone-brown-2930373-4500123.jpg") no-repeat
           center center fixed;
         background-size: cover;
-        font-family: Arial, sans-serif;
+        font-family: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
       }
       .overlay {
         position: absolute;
@@ -23,37 +23,45 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0, 0, 0, 0.7);
+        background: rgba(0, 0, 0, 0.6);
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
         color: white;
         text-align: center;
+        padding: 20px;
       }
       h1 {
-        font-size: 3em;
+        font-size: 2.8em;
+        font-weight: 600;
         margin-bottom: 0.5em;
-        font-weight: bold;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
       }
       p {
-        font-size: 1.5em;
-        font-weight: bold;
-        margin-bottom: 1em;
+        font-size: 1.2em;
+        margin-bottom: 1.5em;
+        line-height: 1.6;
+        max-width: 600px;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
       }
       a button {
-        font-size: 1.5em;
-        padding: 0.5em 2em;
+        font-size: 1.2em;
+        padding: 12px 24px;
         border: none;
-        border-radius: 5px;
-        background-color: #28a745;
+        border-radius: 8px;
+        background-color: #007aff;
         color: white;
         cursor: pointer;
-        transition: background-color 0.3s;
-        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
       }
       a button:hover {
-        background-color: #218838;
+        background-color: #005fca;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3);
+      }
+      a button:active {
+        transform: scale(0.98);
       }
     </style>
   </head>
