@@ -1,1 +1,522 @@
-(()=>{"use strict";var e,t={22:(e,t,o)=>{o.d(t,{A:()=>i});var r=o(354),n=o.n(r),l=o(314),a=o.n(l)()(n());a.push([e.id,'body {\n  width: 320px;\n  height: 480px;\n  background-color: #f9f9f9;\n  font-family: "Roboto";\n  color: #000000;\n}\n',"",{version:3,sources:["webpack://./src/popup/popup.css"],names:[],mappings:"AAAA;EACE,YAAY;EACZ,aAAa;EACb,yBAAyB;EACzB,qBAAqB;EACrB,cAAc;AAChB",sourcesContent:['body {\r\n  width: 320px;\r\n  height: 480px;\r\n  background-color: #f9f9f9;\r\n  font-family: "Roboto";\r\n  color: #000000;\r\n}\r\n'],sourceRoot:""}]);const i=a},268:(e,t,o)=>{var r=o(540),n=(o(951),o(338)),l=o(72),a=o.n(l),i=o(825),c=o.n(i),s=o(659),u=o.n(s),p=o(56),d=o.n(p),m=o(159),g=o.n(m),f=o(113),b=o.n(f),h=o(22),x={};x.styleTagTransform=b(),x.setAttributes=d(),x.insert=u().bind(null,"head"),x.domAPI=c(),x.insertStyleElement=g(),a()(h.A,x),h.A&&h.A.locals&&h.A.locals;const y=document.createElement("div");document.body.appendChild(y),(0,n.createRoot)(y).render(r.createElement((()=>{const[e,t]=(0,r.useState)([]),[o,n]=(0,r.useState)(null),[l,a]=(0,r.useState)(!1),[i,c]=(0,r.useState)(null),[s,u]=(0,r.useState)(0);return(0,r.useEffect)((()=>{chrome.runtime.sendMessage({action:"getBlockedSites"},(e=>{e&&e.blockedSites&&t(e.blockedSites)})),chrome.storage.local.get(["timerExpiration","totalTime","unblockCount","unblockResetTime"],(e=>{const t=Date.now(),o=e.timerExpiration||0,r=e.totalTime||null,l=e.unblockCount||0;if(t>(e.unblockResetTime||0)?(chrome.storage.local.set({unblockCount:0,unblockResetTime:t+864e5}),u(0)):u(l),o>t){const e=Math.floor((o-t)/1e3);n(e),c(r),a(!0)}}))}),[]),(0,r.useEffect)((()=>{let e;return null!==o&&o>0?e=setTimeout((()=>n((e=>e?e-1:0))),1e3):0===o&&(chrome.runtime.sendMessage({action:"timerExpired"}),a(!1)),()=>clearTimeout(e)}),[o]),r.createElement("div",{style:{padding:"20px",fontFamily:'-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',textAlign:"center",backgroundColor:"#f9f9f9",borderRadius:"12px",boxShadow:"0 4px 10px rgba(0, 0, 0, 0.1)",maxWidth:"400px",margin:"20px auto"}},r.createElement("div",{style:{display:"flex",alignItems:"center",position:"absolute",top:"20px",left:"10px"}},r.createElement("img",{src:"https://i.ibb.co/ZWHMsct/hand.png",alt:"logo",style:{width:"24px",height:"24px",marginRight:"8px"}}),r.createElement("span",{style:{fontSize:"10px",color:"#333",fontWeight:"bold"}},"Betting Site Blocker")),r.createElement("h2",{style:{fontSize:"12px",marginBottom:"20px",color:"#333"}},"Stay in control by limiting access to gambling sites."," ",r.createElement("a",{href:"https://bircheshealth.com/blocked-sites",target:"_blank",rel:"noopener noreferrer",style:{color:"#007AFF",textDecoration:"none"}},"View Blocked Gambling Sites")),r.createElement("p",{style:{fontSize:"14px",color:"#555",marginBottom:"10px"}},"Unblocks remaining today: ",r.createElement("strong",null,3-s),"/",3),l?r.createElement("div",{style:{display:"flex",flexDirection:"column",alignItems:"center"}},r.createElement("svg",{width:"120",height:"120",viewBox:"0 0 100 100",style:{marginBottom:"20px"}},r.createElement("circle",{cx:"50",cy:"50",r:"45",stroke:"#E0E0E0",strokeWidth:"6",fill:"none"}),r.createElement("circle",{cx:"50",cy:"50",r:"45",stroke:"#007AFF",strokeWidth:"6",fill:"none",strokeDasharray:""+2*Math.PI*45,strokeDashoffset:(()=>{if(null===o||null===i)return 0;const e=o/i;return 2*Math.PI*45*(1-e)})(),style:{transition:"stroke-dashoffset 1s linear"}}),r.createElement("text",{x:"50",y:"55",textAnchor:"middle",fontSize:"18",fill:"#007AFF",fontWeight:"bold"},Math.floor(o/60),":",String(o%60).padStart(2,"0")))):r.createElement("div",null,[5,10].map((e=>r.createElement("button",{key:e,style:{padding:"12px 20px",margin:"5px",backgroundColor:s>=3?"#ccc":"#007AFF",color:"#fff",border:"none",borderRadius:"8px",cursor:s>=3?"not-allowed":"pointer",fontSize:"16px",transition:"background-color 0.3s"},onClick:()=>(e=>{if(s>=3)return;const t=60*e,o=Date.now()+1e3*t;n(t),c(t),a(!0);const r=s+1;u(r),chrome.runtime.sendMessage({action:"startTimer",duration:t}),chrome.storage.local.set({timerExpiration:o,totalTime:t,unblockCount:r}),chrome.storage.local.get(["unblockResetTime"],(e=>{e.unblockResetTime||chrome.storage.local.set({unblockResetTime:Date.now()+864e5})}))})(e),disabled:s>=3,onMouseOver:e=>!(s>=3)&&(e.currentTarget.style.backgroundColor="#005FCA"),onMouseOut:e=>!(s>=3)&&(e.currentTarget.style.backgroundColor="#007AFF")},e," Minutes")))),r.createElement("div",{style:{marginTop:"30px",textAlign:"left"}},r.createElement("p",{style:{fontSize:"14px",color:"#555",marginBottom:"15px"}},"Struggling with gambling? ",r.createElement("strong",null,"Birches Health")," provides expert, confidential care to help you regain control. Get started today:"),r.createElement("button",{style:{padding:"12px 20px",backgroundColor:"#007AFF",color:"#fff",border:"none",borderRadius:"8px",cursor:"pointer",marginBottom:"10px",fontSize:"16px",transition:"background-color 0.3s"},onClick:()=>window.open("https://bircheshealth.com/appointments"),onMouseOver:e=>e.currentTarget.style.backgroundColor="#005FCA",onMouseOut:e=>e.currentTarget.style.backgroundColor="#007AFF"},"Book an Appointment"),r.createElement("button",{style:{padding:"12px 20px",backgroundColor:"#34C759",color:"#fff",border:"none",borderRadius:"8px",cursor:"pointer",marginBottom:"10px",fontSize:"16px",transition:"background-color 0.3s"},onClick:()=>window.open("https://bircheshealth.com/self-test"),onMouseOver:e=>e.currentTarget.style.backgroundColor="#28A745",onMouseOut:e=>e.currentTarget.style.backgroundColor="#34C759"},"Take a Gambling Self-Test"),r.createElement("button",{style:{padding:"12px 20px",backgroundColor:"#FF9500",color:"#fff",border:"none",borderRadius:"8px",cursor:"pointer",fontSize:"16px",transition:"background-color 0.3s"},onClick:()=>window.open("https://bircheshealth.com/family-support"),onMouseOver:e=>e.currentTarget.style.backgroundColor="#CC7A00",onMouseOut:e=>e.currentTarget.style.backgroundColor="#FF9500"},"Support for Partners & Family")),r.createElement("div",{style:{marginTop:"20px",display:"flex",justifyContent:"space-between",fontSize:"14px"}},r.createElement("a",{href:"https://bircheshealth.com/donate",target:"_blank",rel:"noopener noreferrer",style:{color:"#007AFF",textDecoration:"none"}},"Donate")))}),null))}},o={};function r(e){var n=o[e];if(void 0!==n)return n.exports;var l=o[e]={id:e,exports:{}};return t[e](l,l.exports,r),l.exports}r.m=t,e=[],r.O=(t,o,n,l)=>{if(!o){var a=1/0;for(u=0;u<e.length;u++){o=e[u][0],n=e[u][1],l=e[u][2];for(var i=!0,c=0;c<o.length;c++)(!1&l||a>=l)&&Object.keys(r.O).every((e=>r.O[e](o[c])))?o.splice(c--,1):(i=!1,l<a&&(a=l));if(i){e.splice(u--,1);var s=n();void 0!==s&&(t=s)}}return t}l=l||0;for(var u=e.length;u>0&&e[u-1][2]>l;u--)e[u]=e[u-1];e[u]=[o,n,l]},r.n=e=>{var t=e&&e.__esModule?()=>e.default:()=>e;return r.d(t,{a:t}),t},r.d=(e,t)=>{for(var o in t)r.o(t,o)&&!r.o(e,o)&&Object.defineProperty(e,o,{enumerable:!0,get:t[o]})},r.g=function(){if("object"==typeof globalThis)return globalThis;try{return this||new Function("return this")()}catch(e){if("object"==typeof window)return window}}(),r.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),(()=>{var e;r.g.importScripts&&(e=r.g.location+"");var t=r.g.document;if(!e&&t&&(t.currentScript&&"SCRIPT"===t.currentScript.tagName.toUpperCase()&&(e=t.currentScript.src),!e)){var o=t.getElementsByTagName("script");if(o.length)for(var n=o.length-1;n>-1&&(!e||!/^http(s?):/.test(e));)e=o[n--].src}if(!e)throw new Error("Automatic publicPath is not supported in this browser");e=e.replace(/#.*$/,"").replace(/\?.*$/,"").replace(/\/[^\/]+$/,"/"),r.p=e})(),(()=>{r.b=document.baseURI||self.location.href;var e={887:0};r.O.j=t=>0===e[t];var t=(t,o)=>{var n,l,a=o[0],i=o[1],c=o[2],s=0;if(a.some((t=>0!==e[t]))){for(n in i)r.o(i,n)&&(r.m[n]=i[n]);if(c)var u=c(r)}for(t&&t(o);s<a.length;s++)l=a[s],r.o(e,l)&&e[l]&&e[l][0](),e[l]=0;return r.O(u)},o=self.webpackChunkbetting_blocker=self.webpackChunkbetting_blocker||[];o.forEach(t.bind(null,0)),o.push=t.bind(null,o.push.bind(o))})(),r.nc=void 0;var n=r.O(void 0,[862],(()=>r(268)));n=r.O(n)})();
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	var __webpack_modules__ = ({
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./src/popup/popup.css":
+/*!*******************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./src/popup/popup.css ***!
+  \*******************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/sourceMaps.js */ "./node_modules/css-loader/dist/runtime/sourceMaps.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, `body {
+  width: 320px;
+  height: 480px;
+  background-color: #f9f9f9;
+  font-family: "Roboto";
+  color: #000000;
+}
+`, "",{"version":3,"sources":["webpack://./src/popup/popup.css"],"names":[],"mappings":"AAAA;EACE,YAAY;EACZ,aAAa;EACb,yBAAyB;EACzB,qBAAqB;EACrB,cAAc;AAChB","sourcesContent":["body {\r\n  width: 320px;\r\n  height: 480px;\r\n  background-color: #f9f9f9;\r\n  font-family: \"Roboto\";\r\n  color: #000000;\r\n}\r\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./src/popup/popup.css":
+/*!*****************************!*\
+  !*** ./src/popup/popup.css ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleDomAPI.js */ "./node_modules/style-loader/dist/runtime/styleDomAPI.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertBySelector.js */ "./node_modules/style-loader/dist/runtime/insertBySelector.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js */ "./node_modules/style-loader/dist/runtime/setAttributesWithoutAttributes.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/insertStyleElement.js */ "./node_modules/style-loader/dist/runtime/insertStyleElement.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_popup_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../node_modules/css-loader/dist/cjs.js!./popup.css */ "./node_modules/css-loader/dist/cjs.js!./src/popup/popup.css");
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+
+var options = {};
+
+options.styleTagTransform = (_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default());
+options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWithoutAttributes_js__WEBPACK_IMPORTED_MODULE_3___default());
+options.insert = _node_modules_style_loader_dist_runtime_insertBySelector_js__WEBPACK_IMPORTED_MODULE_2___default().bind(null, "head");
+options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
+options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_popup_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+
+
+
+
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_popup_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_popup_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_popup_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+
+
+/***/ }),
+
+/***/ "./src/popup/popup.tsx":
+/*!*****************************!*\
+  !*** ./src/popup/popup.tsx ***!
+  \*****************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var fontsource_roboto__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! fontsource-roboto */ "./node_modules/fontsource-roboto/index.css");
+/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
+/* harmony import */ var _popup_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./popup.css */ "./src/popup/popup.css");
+
+
+
+
+const Popup = () => {
+    const [blockedSites, setBlockedSites] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+    const [countdown, setCountdown] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+    const [timerRunning, setTimerRunning] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+    const [totalTime, setTotalTime] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(null);
+    const [unblockCount, setUnblockCount] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0);
+    const maxUnblocks = 3;
+    // Fetch the list of blocked sites and other data from local storage
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        chrome.runtime.sendMessage({ action: "getBlockedSites" }, (response) => {
+            if (response && response.blockedSites) {
+                setBlockedSites(response.blockedSites); // Update state with blocked sites
+            }
+        });
+        // Fetch timer expiration, total duration, and unblock count from local storage
+        chrome.storage.local.get(["timerExpiration", "totalTime", "unblockCount", "unblockResetTime"], (result) => {
+            const currentTime = Date.now();
+            const timerExpiration = result.timerExpiration || 0;
+            const storedTotalTime = result.totalTime || null;
+            const storedUnblockCount = result.unblockCount || 0;
+            const unblockResetTime = result.unblockResetTime || 0;
+            // Reset unblock count if 24 hours have passed
+            if (currentTime > unblockResetTime) {
+                chrome.storage.local.set({
+                    unblockCount: 0,
+                    unblockResetTime: currentTime + 24 * 60 * 60 * 1000,
+                });
+                setUnblockCount(0);
+            }
+            else {
+                setUnblockCount(storedUnblockCount);
+            }
+            if (timerExpiration > currentTime) {
+                const remainingTime = Math.floor((timerExpiration - currentTime) / 1000);
+                setCountdown(remainingTime);
+                setTotalTime(storedTotalTime);
+                setTimerRunning(true);
+            }
+        });
+    }, []);
+    // Handle countdown updates
+    (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+        let timer;
+        if (countdown !== null && countdown > 0) {
+            timer = setTimeout(() => setCountdown((prev) => (prev ? prev - 1 : 0)), 1000);
+        }
+        else if (countdown === 0) {
+            chrome.runtime.sendMessage({ action: "timerExpired" });
+            setTimerRunning(false);
+        }
+        return () => clearTimeout(timer);
+    }, [countdown]);
+    const startTimer = (minutes) => {
+        if (unblockCount >= maxUnblocks)
+            return;
+        const seconds = minutes * 60;
+        const expirationTime = Date.now() + seconds * 1000;
+        setCountdown(seconds);
+        setTotalTime(seconds);
+        setTimerRunning(true);
+        const newUnblockCount = unblockCount + 1;
+        setUnblockCount(newUnblockCount);
+        chrome.runtime.sendMessage({ action: "startTimer", duration: seconds });
+        chrome.storage.local.set({
+            timerExpiration: expirationTime,
+            totalTime: seconds,
+            unblockCount: newUnblockCount,
+        });
+        // Set/reset unblock reset time if it’s the first unblock of the day
+        chrome.storage.local.get(["unblockResetTime"], (result) => {
+            if (!result.unblockResetTime) {
+                chrome.storage.local.set({
+                    unblockResetTime: Date.now() + 24 * 60 * 60 * 1000,
+                });
+            }
+        });
+    };
+    const calculateStrokeDashoffset = () => {
+        if (countdown === null || totalTime === null)
+            return 0;
+        const percentage = countdown / totalTime;
+        const circumference = 2 * Math.PI * 45; // Radius is 45
+        return circumference * (1 - percentage);
+    };
+    return (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { style: {
+            padding: "20px",
+            fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
+            textAlign: "center",
+            backgroundColor: "#f9f9f9",
+            borderRadius: "12px",
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+            maxWidth: "400px",
+            margin: "20px auto",
+        } },
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { style: {
+                display: "flex",
+                alignItems: "center",
+                position: "absolute",
+                top: "20px",
+                left: "10px",
+            } },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("img", { src: "https://i.ibb.co/ZWHMsct/hand.png", alt: "logo", style: { width: "24px", height: "24px", marginRight: "8px" } }),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("span", { style: { fontSize: "10px", color: "#333", fontWeight: "bold" } }, "Betting Site Blocker")),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", { style: { fontSize: "12px", marginBottom: "20px", color: "#333" } },
+            "Stay in control by limiting access to gambling sites.",
+            " ",
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { href: "https://docs.google.com/document/d/1OPNpl-iGCarB77_h4sUenV_4Pyf_Yvn3_R_xmqnGRuc/edit?usp=sharing", target: "_blank", rel: "noopener noreferrer", style: { color: "#007AFF", textDecoration: "none" } }, "View Blocked Gambling Sites")),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { style: { fontSize: "14px", color: "#555", marginBottom: "10px" } },
+            "Unblocks remaining today: ",
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", null, maxUnblocks - unblockCount),
+            "/",
+            maxUnblocks),
+        !timerRunning ? (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, [5, 10].map((time) => (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { key: time, style: {
+                padding: "12px 20px",
+                margin: "5px",
+                backgroundColor: unblockCount >= maxUnblocks ? "#ccc" : "#007AFF",
+                color: "#fff",
+                border: "none",
+                borderRadius: "8px",
+                cursor: unblockCount >= maxUnblocks ? "not-allowed" : "pointer",
+                fontSize: "16px",
+                transition: "background-color 0.3s",
+            }, onClick: () => startTimer(time), disabled: unblockCount >= maxUnblocks, onMouseOver: (e) => !(unblockCount >= maxUnblocks) &&
+                (e.currentTarget.style.backgroundColor = "#005FCA"), onMouseOut: (e) => !(unblockCount >= maxUnblocks) &&
+                (e.currentTarget.style.backgroundColor = "#007AFF") },
+            time,
+            " Minutes"))))) : (react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { style: {
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+            } },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("svg", { width: "120", height: "120", viewBox: "0 0 100 100", style: { marginBottom: "20px" } },
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("circle", { cx: "50", cy: "50", r: "45", stroke: "#E0E0E0", strokeWidth: "6", fill: "none" }),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("circle", { cx: "50", cy: "50", r: "45", stroke: "#007AFF", strokeWidth: "6", fill: "none", strokeDasharray: `${2 * Math.PI * 45}`, strokeDashoffset: calculateStrokeDashoffset(), style: { transition: "stroke-dashoffset 1s linear" } }),
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("text", { x: "50", y: "55", textAnchor: "middle", fontSize: "18", fill: "#007AFF", fontWeight: "bold" },
+                    Math.floor(countdown / 60),
+                    ":",
+                    String(countdown % 60).padStart(2, "0"))))),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { style: { marginTop: "30px", textAlign: "left" } },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", { style: { fontSize: "14px", color: "#555", marginBottom: "15px" } },
+                "Struggling with gambling? ",
+                react__WEBPACK_IMPORTED_MODULE_0___default().createElement("strong", null, "Birches Health"),
+                " provides expert, confidential care to help you regain control. Get started today:"),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { style: {
+                    padding: "12px 20px",
+                    backgroundColor: "#007AFF",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    marginBottom: "10px",
+                    fontSize: "16px",
+                    transition: "background-color 0.3s",
+                }, onClick: () => window.open("https://gamblinginquiry.bircheshealth.com/flow/direct-booking-flow/variant/general-healthie-embed"), onMouseOver: (e) => (e.currentTarget.style.backgroundColor = "#005FCA"), onMouseOut: (e) => (e.currentTarget.style.backgroundColor = "#007AFF") }, "Book an Appointment"),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { style: {
+                    padding: "12px 20px",
+                    backgroundColor: "#34C759",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    marginBottom: "10px",
+                    fontSize: "16px",
+                    transition: "background-color 0.3s",
+                }, onClick: () => window.open("https://gamblinginquiry.bircheshealth.com/flow/assessment/variant/confidential-self-assessment"), onMouseOver: (e) => (e.currentTarget.style.backgroundColor = "#28A745"), onMouseOut: (e) => (e.currentTarget.style.backgroundColor = "#34C759") }, "Take a Gambling Self-Test"),
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("button", { style: {
+                    padding: "12px 20px",
+                    backgroundColor: "#FF9500",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "8px",
+                    cursor: "pointer",
+                    fontSize: "16px",
+                    transition: "background-color 0.3s",
+                }, onClick: () => window.open("https://bircheshealth.com/loved-one-or-friend"), onMouseOver: (e) => (e.currentTarget.style.backgroundColor = "#CC7A00"), onMouseOut: (e) => (e.currentTarget.style.backgroundColor = "#FF9500") }, "Support for Partners & Family")),
+        react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", { style: {
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: "14px",
+            } },
+            react__WEBPACK_IMPORTED_MODULE_0___default().createElement("a", { href: "https://ko-fi.com/sureodds", target: "_blank", rel: "noopener noreferrer", style: { color: "#007AFF", textDecoration: "none" } }, "Donate"))));
+};
+const root = document.createElement("div");
+document.body.appendChild(root);
+const rootElement = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_2__.createRoot)(root);
+rootElement.render(react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Popup, null));
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Popup);
+
+
+/***/ })
+
+/******/ 	});
+/************************************************************************/
+/******/ 	// The module cache
+/******/ 	var __webpack_module_cache__ = {};
+/******/ 	
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/ 		// Check if module is in cache
+/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
+/******/ 		if (cachedModule !== undefined) {
+/******/ 			return cachedModule.exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = __webpack_module_cache__[moduleId] = {
+/******/ 			id: moduleId,
+/******/ 			loaded: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/ 	
+/******/ 		// Execute the module function
+/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
+/******/ 	
+/******/ 		// Flag the module as loaded
+/******/ 		module.loaded = true;
+/******/ 	
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/chunk loaded */
+/******/ 	(() => {
+/******/ 		var deferred = [];
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
+/******/ 			if(chunkIds) {
+/******/ 				priority = priority || 0;
+/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
+/******/ 				deferred[i] = [chunkIds, fn, priority];
+/******/ 				return;
+/******/ 			}
+/******/ 			var notFulfilled = Infinity;
+/******/ 			for (var i = 0; i < deferred.length; i++) {
+/******/ 				var chunkIds = deferred[i][0];
+/******/ 				var fn = deferred[i][1];
+/******/ 				var priority = deferred[i][2];
+/******/ 				var fulfilled = true;
+/******/ 				for (var j = 0; j < chunkIds.length; j++) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
+/******/ 						chunkIds.splice(j--, 1);
+/******/ 					} else {
+/******/ 						fulfilled = false;
+/******/ 						if(priority < notFulfilled) notFulfilled = priority;
+/******/ 					}
+/******/ 				}
+/******/ 				if(fulfilled) {
+/******/ 					deferred.splice(i--, 1)
+/******/ 					var r = fn();
+/******/ 					if (r !== undefined) result = r;
+/******/ 				}
+/******/ 			}
+/******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/node module decorator */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
+/******/ 			module.paths = [];
+/******/ 			if (!module.children) module.children = [];
+/******/ 			return module;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript && document.currentScript.tagName.toUpperCase() === 'SCRIPT')
+/******/ 				scriptUrl = document.currentScript.src;
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) {
+/******/ 					var i = scripts.length - 1;
+/******/ 					while (i > -1 && (!scriptUrl || !/^http(s?):/.test(scriptUrl))) scriptUrl = scripts[i--].src;
+/******/ 				}
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"popup": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
+/******/ 		
+/******/ 		// install a JSONP callback for chunk loading
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var chunkIds = data[0];
+/******/ 			var moreModules = data[1];
+/******/ 			var runtime = data[2];
+/******/ 			// add "moreModules" to the modules object,
+/******/ 			// then flag all "chunkIds" as loaded and fire callback
+/******/ 			var moduleId, chunkId, i = 0;
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
+/******/ 				for(moduleId in moreModules) {
+/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
+/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
+/******/ 					}
+/******/ 				}
+/******/ 				if(runtime) var result = runtime(__webpack_require__);
+/******/ 			}
+/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
+/******/ 			for(;i < chunkIds.length; i++) {
+/******/ 				chunkId = chunkIds[i];
+/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
+/******/ 					installedChunks[chunkId][0]();
+/******/ 				}
+/******/ 				installedChunks[chunkId] = 0;
+/******/ 			}
+/******/ 			return __webpack_require__.O(result);
+/******/ 		}
+/******/ 		
+/******/ 		var chunkLoadingGlobal = self["webpackChunkbetting_blocker"] = self["webpackChunkbetting_blocker"] || [];
+/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
+/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+/******/ 	
+/******/ 	// startup
+/******/ 	// Load entry module and return exports
+/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["vendors-node_modules_react_index_js","vendors-node_modules_react-dom_client_js-node_modules_fontsource-roboto_index_css"], () => (__webpack_require__("./src/popup/popup.tsx")))
+/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
+/******/ 	
+/******/ })()
+;
+//# sourceMappingURL=popup.js.map

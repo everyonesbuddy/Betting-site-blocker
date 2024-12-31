@@ -140,7 +140,7 @@ const Popup = () => {
       <h2 style={{ fontSize: "12px", marginBottom: "20px", color: "#333" }}>
         Stay in control by limiting access to gambling sites.{" "}
         <a
-          href="https://bircheshealth.com/blocked-sites"
+          href="https://docs.google.com/document/d/1OPNpl-iGCarB77_h4sUenV_4Pyf_Yvn3_R_xmqnGRuc/edit?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: "#007AFF", textDecoration: "none" }}
@@ -250,7 +250,11 @@ const Popup = () => {
             fontSize: "16px",
             transition: "background-color 0.3s",
           }}
-          onClick={() => window.open("https://bircheshealth.com/appointments")}
+          onClick={() =>
+            window.open(
+              "https://gamblinginquiry.bircheshealth.com/flow/direct-booking-flow/variant/general-healthie-embed"
+            )
+          }
           onMouseOver={(e) =>
             (e.currentTarget.style.backgroundColor = "#005FCA")
           }
@@ -272,7 +276,11 @@ const Popup = () => {
             fontSize: "16px",
             transition: "background-color 0.3s",
           }}
-          onClick={() => window.open("https://bircheshealth.com/self-test")}
+          onClick={() =>
+            window.open(
+              "https://gamblinginquiry.bircheshealth.com/flow/assessment/variant/confidential-self-assessment"
+            )
+          }
           onMouseOver={(e) =>
             (e.currentTarget.style.backgroundColor = "#28A745")
           }
@@ -294,7 +302,7 @@ const Popup = () => {
             transition: "background-color 0.3s",
           }}
           onClick={() =>
-            window.open("https://bircheshealth.com/family-support")
+            window.open("https://bircheshealth.com/loved-one-or-friend")
           }
           onMouseOver={(e) =>
             (e.currentTarget.style.backgroundColor = "#CC7A00")
@@ -316,7 +324,7 @@ const Popup = () => {
         }}
       >
         <a
-          href="https://bircheshealth.com/donate"
+          href="https://ko-fi.com/sureodds"
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: "#007AFF", textDecoration: "none" }}
