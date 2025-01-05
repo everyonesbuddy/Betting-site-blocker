@@ -2,54 +2,56 @@ const blockedSites = ["underdogfantasy.com", "prizepicks.com"];
 let timerActive = false;
 let timerId: NodeJS.Timeout | null = null;
 
-// Helper to update blocking rules
 const updateBlockingRules = (shouldBlock: boolean) => {
   chrome.declarativeNetRequest.updateEnabledRulesets({
     enableRulesetIds: shouldBlock ? ["block_betting_sites"] : [],
     disableRulesetIds: shouldBlock ? [] : ["block_betting_sites"],
   });
+  console.log("Blocking rules updated:", shouldBlock ? "Block" : "Unblock");
 };
 
-// Initialize on load
 chrome.runtime.onInstalled.addListener(() => {
-  updateBlockingRules(true); // Block sites by default
+  updateBlockingRules(true);
 });
 
-// Restore state on extension start
 chrome.runtime.onStartup.addListener(() => {
   chrome.storage.local.get(["timerExpiration"], (result) => {
     const currentTime = Date.now();
     const timerExpiration = result.timerExpiration || 0;
 
     if (currentTime >= timerExpiration) {
-      // Timer expired, block sites
       updateBlockingRules(true);
       chrome.storage.local.remove("timerExpiration");
     } else {
-      // Timer still active, unblock sites and set remaining timer
       const remainingTime = timerExpiration - currentTime;
       updateBlockingRules(false);
-      startTimer(remainingTime / 1000); // Convert ms to seconds
+      startTimer(remainingTime / 1000);
     }
   });
 });
 
-// Start a timer and persist its state
 const startTimer = (durationSeconds: number) => {
-  const expirationTime = Date.now() + durationSeconds * 1000; // Calculate expiration time
-  chrome.storage.local.set({ timerExpiration: expirationTime });
-  updateBlockingRules(false); // Unblock sites
-  timerActive = true;
+  if (timerActive) return; // Prevent multiple active timers
 
   if (timerId) clearTimeout(timerId); // Clear any existing timer
+
+  const expirationTime = Date.now() + durationSeconds * 1000;
+  chrome.storage.local.set({ timerExpiration: expirationTime });
+  updateBlockingRules(false);
+
+  timerActive = true;
   timerId = setTimeout(() => {
-    updateBlockingRules(true); // Re-block sites after timer
+    timerId = null;
     timerActive = false;
-    chrome.storage.local.remove("timerExpiration");
+    updateBlockingRules(true);
+    chrome.storage.local.remove("timerExpiration", () => {
+      console.log("Timer expired, sites re-blocked");
+    });
   }, durationSeconds * 1000);
+
+  console.log("Timer started for:", durationSeconds, "seconds");
 };
 
-// Listen for messages
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "startTimer" && !timerActive) {
     startTimer(message.duration);
@@ -69,6 +71,5 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse({ error: "Unknown action" });
   }
 
-  // Explicitly return true for asynchronous operations
   return true;
 });
