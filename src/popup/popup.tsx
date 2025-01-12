@@ -352,16 +352,16 @@ const Popup = () => {
           fontSize: "14px",
         }}
       >
-        <a
+        {/* <a
           href="https://ko-fi.com/sureodds"
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: "#007AFF", textDecoration: "none" }}
         >
           Donate
-        </a>
+        </a> */}
         <a
-          href="https://buy-unblock.example.com"
+          href="https://buy.stripe.com/3cs4hj00X0TheaY146"
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: "#007AFF", textDecoration: "none" }}
