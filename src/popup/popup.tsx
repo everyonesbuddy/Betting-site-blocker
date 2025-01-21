@@ -213,7 +213,7 @@ const Popup = () => {
           style={{ width: "24px", height: "24px", marginRight: "8px" }}
         />
         <span style={{ fontSize: "10px", color: "#333", fontWeight: "bold" }}>
-          Betting Site Blocker
+          The Bet Blocker
         </span>
       </div>
 

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Betting Site Blocker",
-  "description": "Block betting sites",
+  "name": "The Bet Blocker",
+  "description": "Take Control of Your Betting Habits",
   "version": "1.0.0",
   "permissions": ["declarativeNetRequest", "storage"],
   "icons": {
