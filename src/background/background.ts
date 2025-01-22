@@ -79,5 +79,5 @@ function reloadExtension() {
   chrome.runtime.reload();
 }
 
-// Set an interval to reload the extension every 30 minutes (1800000 milliseconds)
-setInterval(reloadExtension, 1800000);
+// Set an interval to reload the extension every 5 minutes (300,000 milliseconds)
+setInterval(reloadExtension, 300000);
