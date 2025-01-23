@@ -190,7 +190,7 @@ const Popup = () => {
         fontFamily:
           '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif',
         textAlign: "center",
-        backgroundColor: "#f9f9f9",
+        backgroundColor: "#f5eded",
         borderRadius: "12px",
         boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
         maxWidth: "400px",
@@ -223,7 +223,7 @@ const Popup = () => {
           href="https://docs.google.com/document/d/1OPNpl-iGCarB77_h4sUenV_4Pyf_Yvn3_R_xmqnGRuc/edit?usp=sharing"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: "#007AFF", textDecoration: "none" }}
+          style={{ color: "#d72323", textDecoration: "none" }}
         >
           View Blocked Gambling Sites
         </a>
@@ -240,7 +240,7 @@ const Popup = () => {
             style={{
               padding: "12px 20px",
               margin: "5px",
-              backgroundColor: unblockCount >= maxUnblocks ? "#ccc" : "#007AFF",
+              backgroundColor: unblockCount >= maxUnblocks ? "#ccc" : "#d72323",
               color: "#fff",
               border: "none",
               borderRadius: "8px",
@@ -251,7 +251,7 @@ const Popup = () => {
             onClick={() => startTimer(5)}
             disabled={unblockCount >= maxUnblocks}
           >
-            5 Minutes Unblock
+            Free 5 Minutes Unblock
           </button>
 
           {/* Paid Unblock UI */}
@@ -275,7 +275,7 @@ const Popup = () => {
             <button
               style={{
                 padding: "12px 20px",
-                backgroundColor: "#007AFF",
+                backgroundColor: "#d72323",
                 color: "#fff",
                 border: "none",
                 borderRadius: "8px",
@@ -303,7 +303,7 @@ const Popup = () => {
               cx="50"
               cy="50"
               r="45"
-              stroke="#007AFF"
+              stroke="#d72323"
               strokeWidth="6"
               fill="none"
               strokeDasharray={`${2 * Math.PI * 45}`}
@@ -315,7 +315,7 @@ const Popup = () => {
               y="55"
               textAnchor="middle"
               fontSize="18"
-              fill="#007AFF"
+              fill="#d72323"
               fontWeight="bold"
             >
               {Math.floor(countdown! / 60)}:
@@ -330,11 +330,11 @@ const Popup = () => {
         style={{
           marginBottom: "10px",
           padding: "10px",
-          color: notificationType === "success" ? "#0f0" : "#f00",
+          color: notificationType === "success" ? "#004400" : "#ff0000",
           backgroundColor:
-            notificationType === "success" ? "#e5ffe5" : "#ffe5e5",
+            notificationType === "success" ? "#ccffcc" : "#ffe5e5",
           border: `1px solid ${
-            notificationType === "success" ? "#0a0" : "#a00"
+            notificationType === "success" ? "#004400" : "#a00"
           }`,
           borderRadius: "5px",
           fontSize: "14px",
@@ -364,7 +364,7 @@ const Popup = () => {
           href="https://buy.stripe.com/3cs4hj00X0TheaY146"
           target="_blank"
           rel="noopener noreferrer"
-          style={{ color: "#007AFF", textDecoration: "none" }}
+          style={{ color: "#d72323", textDecoration: "none" }}
         >
           Purchase 10 Min Unblock ($5)
         </a>

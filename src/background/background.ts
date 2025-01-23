@@ -46,6 +46,7 @@ const startTimer = (durationSeconds: number) => {
     updateBlockingRules(true);
     chrome.storage.local.remove("timerExpiration", () => {
       console.log("Timer expired, sites re-blocked");
+      chrome.runtime.reload(); // Reload the extension when the timer ends
     });
   }, durationSeconds * 1000);
 
