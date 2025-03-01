@@ -430,7 +430,7 @@ const Popup = () => {
           Donate
         </a> */}
         <a
-          href="https://buy.stripe.com/3cs4hj00X0TheaY146"
+          href="https://buy.stripe.com/fZeeYn4zyc9E5jy8ww"
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: "#d72323", textDecoration: "none" }}

@@ -1,1 +1,85 @@
-(()=>{const e=["underdogfantasy.com","prizepicks.com"];let o=!1,t=null;const r=e=>{chrome.declarativeNetRequest.updateEnabledRulesets({enableRulesetIds:e?["block_betting_sites"]:[],disableRulesetIds:e?[]:["block_betting_sites"]}),console.log("Blocking rules updated:",e?"Block":"Unblock")};chrome.runtime.onInstalled.addListener((()=>{r(!0)})),chrome.runtime.onStartup.addListener((()=>{chrome.storage.local.get(["timerExpiration"],(e=>{const o=Date.now(),t=e.timerExpiration||0;if(o>=t)r(!0),chrome.storage.local.remove("timerExpiration");else{const e=t-o;r(!1),i(e/1e3)}}))}));const i=e=>{if(o)return;t&&clearTimeout(t);const i=Date.now()+1e3*e;chrome.storage.local.set({timerExpiration:i}),r(!1),o=!0,t=setTimeout((()=>{t=null,o=!1,r(!0),chrome.storage.local.remove("timerExpiration",(()=>{console.log("Timer expired, sites re-blocked"),chrome.runtime.reload()}))}),1e3*e),console.log("Timer started for:",e,"seconds")};chrome.runtime.onMessage.addListener(((n,s,c)=>("startTimer"!==n.action||o?"timerExpired"===n.action?(t&&(clearTimeout(t),t=null),r(!0),o=!1,chrome.storage.local.remove("timerExpiration"),c({success:!0})):"getBlockedSites"===n.action?c({blockedSites:e}):c({error:"Unknown action"}):(i(n.duration),c({success:!0})),!0))),setInterval((function(){chrome.runtime.reload()}),3e5)})();
+/******/ (() => { // webpackBootstrap
+/*!**************************************!*\
+  !*** ./src/background/background.ts ***!
+  \**************************************/
+const blockedSites = ["underdogfantasy.com", "prizepicks.com"];
+let timerActive = false;
+let timerId = null;
+const updateBlockingRules = (shouldBlock) => {
+    chrome.declarativeNetRequest.updateEnabledRulesets({
+        enableRulesetIds: shouldBlock ? ["block_betting_sites"] : [],
+        disableRulesetIds: shouldBlock ? [] : ["block_betting_sites"],
+    });
+    console.log("Blocking rules updated:", shouldBlock ? "Block" : "Unblock");
+};
+chrome.runtime.onInstalled.addListener(() => {
+    updateBlockingRules(true);
+});
+chrome.runtime.onStartup.addListener(() => {
+    chrome.storage.local.get(["timerExpiration"], (result) => {
+        const currentTime = Date.now();
+        const timerExpiration = result.timerExpiration || 0;
+        if (currentTime >= timerExpiration) {
+            updateBlockingRules(true);
+            chrome.storage.local.remove("timerExpiration");
+        }
+        else {
+            const remainingTime = timerExpiration - currentTime;
+            updateBlockingRules(false);
+            startTimer(remainingTime / 1000);
+        }
+    });
+});
+const startTimer = (durationSeconds) => {
+    if (timerActive)
+        return; // Prevent multiple active timers
+    if (timerId)
+        clearTimeout(timerId); // Clear any existing timer
+    const expirationTime = Date.now() + durationSeconds * 1000;
+    chrome.storage.local.set({ timerExpiration: expirationTime });
+    updateBlockingRules(false);
+    timerActive = true;
+    timerId = setTimeout(() => {
+        timerId = null;
+        timerActive = false;
+        updateBlockingRules(true);
+        chrome.storage.local.remove("timerExpiration", () => {
+            console.log("Timer expired, sites re-blocked");
+            chrome.runtime.reload(); // Reload the extension when the timer ends
+        });
+    }, durationSeconds * 1000);
+    console.log("Timer started for:", durationSeconds, "seconds");
+};
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === "startTimer" && !timerActive) {
+        startTimer(message.duration);
+        sendResponse({ success: true });
+    }
+    else if (message.action === "timerExpired") {
+        if (timerId) {
+            clearTimeout(timerId);
+            timerId = null;
+        }
+        updateBlockingRules(true);
+        timerActive = false;
+        chrome.storage.local.remove("timerExpiration");
+        sendResponse({ success: true });
+    }
+    else if (message.action === "getBlockedSites") {
+        sendResponse({ blockedSites });
+    }
+    else {
+        sendResponse({ error: "Unknown action" });
+    }
+    return true;
+});
+// Function to reload the extension
+function reloadExtension() {
+    chrome.runtime.reload();
+}
+// Set an interval to reload the extension every 5 minutes (300,000 milliseconds)
+setInterval(reloadExtension, 300000);
+
+/******/ })()
+;
+//# sourceMappingURL=background.js.map
