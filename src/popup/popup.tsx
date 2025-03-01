@@ -17,6 +17,12 @@ const Popup = () => {
   const [notificationType, setNotificationType] = useState<
     "success" | "error" | null
   >(null);
+  const [cooldownExpiration, setCooldownExpiration] = useState<number | null>(
+    null
+  );
+  const [cooldownCountdown, setCooldownCountdown] = useState<number | null>(
+    null
+  );
 
   // Fetch the list of blocked sites and other data from local storage
   useEffect(() => {
@@ -26,15 +32,22 @@ const Popup = () => {
       }
     });
 
-    // Fetch timer expiration, total duration, and unblock count from local storage
+    // Fetch timer expiration, total duration, unblock count, and cooldown expiration from local storage
     chrome.storage.local.get(
-      ["timerExpiration", "totalTime", "unblockCount", "unblockResetTime"],
+      [
+        "timerExpiration",
+        "totalTime",
+        "unblockCount",
+        "unblockResetTime",
+        "cooldownExpiration",
+      ],
       (result) => {
         const currentTime = Date.now();
         const timerExpiration = result.timerExpiration || 0;
         const storedTotalTime = result.totalTime || null;
         const storedUnblockCount = result.unblockCount || 0;
         const unblockResetTime = result.unblockResetTime || 0;
+        const storedCooldownExpiration = result.cooldownExpiration || 0;
 
         // Reset unblock count if 24 hours have passed
         if (currentTime > unblockResetTime) {
@@ -55,6 +68,13 @@ const Popup = () => {
           setTotalTime(storedTotalTime);
           setTimerRunning(true);
         }
+
+        if (storedCooldownExpiration > currentTime) {
+          setCooldownExpiration(storedCooldownExpiration);
+          setCooldownCountdown(
+            Math.floor((storedCooldownExpiration - currentTime) / 1000)
+          );
+        }
       }
     );
   }, []);
@@ -73,6 +93,21 @@ const Popup = () => {
     }
     return () => clearTimeout(timer);
   }, [countdown]);
+
+  // Handle cooldown countdown updates
+  useEffect(() => {
+    let cooldownTimer: NodeJS.Timeout;
+    if (cooldownCountdown !== null && cooldownCountdown > 0) {
+      cooldownTimer = setTimeout(
+        () => setCooldownCountdown((prev) => (prev ? prev - 1 : 0)),
+        1000
+      );
+    } else if (cooldownCountdown === 0) {
+      setCooldownExpiration(null);
+      chrome.storage.local.remove("cooldownExpiration");
+    }
+    return () => clearTimeout(cooldownTimer);
+  }, [cooldownCountdown]);
 
   const showNotification = (
     message: string,
@@ -124,6 +159,16 @@ const Popup = () => {
   };
 
   const validatePaidUnblockCode = async () => {
+    const currentTime = Date.now();
+    if (cooldownExpiration && currentTime < cooldownExpiration) {
+      showNotification(
+        "Please wait until the cooldown period is over.",
+        "error",
+        5000
+      );
+      return;
+    }
+
     try {
       // Fetch the current list of codes
       const response = await fetch(
@@ -138,8 +183,14 @@ const Popup = () => {
       );
 
       if (codeEntry) {
-        // Start the unblock timer for 10 minutes (paid unblock)
-        startTimer(10, true);
+        // Start the unblock timer for 30 minutes (paid unblock)
+        startTimer(30, true);
+
+        // Set cooldown expiration time to 5 hours from now
+        const newCooldownExpiration = currentTime + 5 * 60 * 60 * 1000;
+        setCooldownExpiration(newCooldownExpiration);
+        setCooldownCountdown(5 * 60 * 60); // Set cooldown countdown to 5 hours
+        chrome.storage.local.set({ cooldownExpiration: newCooldownExpiration });
 
         // Update the code's status to "used"
         await fetch(
@@ -181,6 +232,16 @@ const Popup = () => {
     const percentage = countdown / totalTime;
     const circumference = 2 * Math.PI * 45; // Radius is 45
     return circumference * (1 - percentage);
+  };
+
+  const formatTime = (seconds: number) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hrs}:${String(mins).padStart(2, "0")}:${String(secs).padStart(
+      2,
+      "0"
+    )}`;
   };
 
   return (
@@ -257,7 +318,7 @@ const Popup = () => {
           {/* Paid Unblock UI */}
           <div style={{ marginTop: "20px" }}>
             <h3 style={{ fontSize: "14px", marginBottom: "10px" }}>
-              Paid Unblock (10 Minutes)
+              Paid Unblock (30 Minutes)
             </h3>
             <input
               type="text"
@@ -271,6 +332,7 @@ const Popup = () => {
                 borderRadius: "8px",
                 marginBottom: "10px",
               }}
+              disabled={cooldownCountdown !== null && cooldownCountdown > 0}
             />
             <button
               style={{
@@ -283,9 +345,16 @@ const Popup = () => {
                 fontSize: "14px",
               }}
               onClick={validatePaidUnblockCode}
+              disabled={cooldownCountdown !== null && cooldownCountdown > 0}
             >
               Apply Code
             </button>
+            {cooldownCountdown !== null && cooldownCountdown > 0 && (
+              <p style={{ color: "#d72323", marginTop: "10px" }}>
+                You are currently in a cooldown period. You can apply for a paid
+                unblock after: {formatTime(cooldownCountdown)}
+              </p>
+            )}
           </div>
         </div>
       ) : (
@@ -366,7 +435,7 @@ const Popup = () => {
           rel="noopener noreferrer"
           style={{ color: "#d72323", textDecoration: "none" }}
         >
-          Purchase 10 Min Unblock ($5)
+          Purchase 30 Min Unblock ($5)
         </a>
       </div>
     </div>
