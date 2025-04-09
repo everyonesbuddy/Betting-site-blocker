@@ -30,10 +30,13 @@ chrome.runtime.onStartup.addListener(() => {
   });
 });
 
+// ✅ FIXED: Always allow starting a new timer by clearing old one
 const startTimer = (durationSeconds: number) => {
-  if (timerActive) return; // Prevent multiple active timers
-
-  if (timerId) clearTimeout(timerId); // Clear any existing timer
+  if (timerId) {
+    clearTimeout(timerId);
+    timerId = null;
+    timerActive = false;
+  }
 
   const expirationTime = Date.now() + durationSeconds * 1000;
   chrome.storage.local.set({ timerExpiration: expirationTime });
@@ -46,7 +49,9 @@ const startTimer = (durationSeconds: number) => {
     updateBlockingRules(true);
     chrome.storage.local.remove("timerExpiration", () => {
       console.log("Timer expired, sites re-blocked");
-      chrome.runtime.reload(); // Reload the extension when the timer ends
+
+      // ❌ FIXED: Removed unnecessary reload which caused issues
+      // chrome.runtime.reload();
     });
   }, durationSeconds * 1000);
 
@@ -54,9 +59,11 @@ const startTimer = (durationSeconds: number) => {
 };
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "startTimer" && !timerActive) {
+  if (message.action === "startTimer") {
     startTimer(message.duration);
     sendResponse({ success: true });
+
+    // ❌ Optional: Remove this if you're only using the setTimeout logic
   } else if (message.action === "timerExpired") {
     if (timerId) {
       clearTimeout(timerId);
@@ -75,10 +82,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   return true;
 });
 
-// Function to reload the extension
+// ✅ Optional: Still okay to reload occasionally for performance
 function reloadExtension() {
   chrome.runtime.reload();
 }
 
-// Set an interval to reload the extension every 5 minutes (300,000 milliseconds)
+// 🔁 Extension reload every 5 mins (keep or remove if not needed)
 setInterval(reloadExtension, 300000);

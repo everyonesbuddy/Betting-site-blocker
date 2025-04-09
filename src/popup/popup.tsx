@@ -9,14 +9,7 @@ const Popup = () => {
   const [timerRunning, setTimerRunning] = useState<boolean>(false);
   const [totalTime, setTotalTime] = useState<number | null>(null);
   const [unblockCount, setUnblockCount] = useState<number>(0);
-  const [unblockCode, setUnblockCode] = useState<string>("");
   const maxUnblocks = 3;
-  const [notificationMessage, setNotificationMessage] = useState<string | null>(
-    null
-  );
-  const [notificationType, setNotificationType] = useState<
-    "success" | "error" | null
-  >(null);
   const [cooldownExpiration, setCooldownExpiration] = useState<number | null>(
     null
   );
@@ -109,19 +102,6 @@ const Popup = () => {
     return () => clearTimeout(cooldownTimer);
   }, [cooldownCountdown]);
 
-  const showNotification = (
-    message: string,
-    type: "success" | "error",
-    timeout: number = 3000
-  ) => {
-    setNotificationMessage(message);
-    setNotificationType(type);
-    setTimeout(() => {
-      setNotificationMessage(null);
-      setNotificationType(null);
-    }, timeout);
-  };
-
   const startTimer = (minutes: number, isPaid: boolean = false) => {
     if (!isPaid && unblockCount >= maxUnblocks) return; // Prevent free unblock if max is reached
 
@@ -156,75 +136,6 @@ const Popup = () => {
         });
       }
     });
-  };
-
-  const validatePaidUnblockCode = async () => {
-    const currentTime = Date.now();
-    if (cooldownExpiration && currentTime < cooldownExpiration) {
-      showNotification(
-        "Please wait until the cooldown period is over.",
-        "error",
-        5000
-      );
-      return;
-    }
-
-    try {
-      // Fetch the current list of codes
-      const response = await fetch(
-        "https://api.sheetbest.com/sheets/ef14d1b6-72df-47a9-8be8-9046b19cfa87"
-      );
-      const data = await response.json();
-
-      // Check if the entered code is valid and not already used
-      const codeEntry = data.find(
-        (entry: { Code: string; isUsed: string }) =>
-          entry.Code === unblockCode && entry.isUsed === "FALSE"
-      );
-
-      if (codeEntry) {
-        // Start the unblock timer for 30 minutes (paid unblock)
-        startTimer(30, true);
-
-        // Set cooldown expiration time to 5 hours from now
-        const newCooldownExpiration = currentTime + 5 * 60 * 60 * 1000;
-        setCooldownExpiration(newCooldownExpiration);
-        setCooldownCountdown(5 * 60 * 60); // Set cooldown countdown to 5 hours
-        chrome.storage.local.set({ cooldownExpiration: newCooldownExpiration });
-
-        // Update the code's status to "used"
-        await fetch(
-          `https://api.sheetbest.com/sheets/ef14d1b6-72df-47a9-8be8-9046b19cfa87/Code/${unblockCode}`,
-          {
-            method: "PATCH",
-            mode: "cors",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              Code: unblockCode,
-              isUsed: "TRUE",
-            }),
-          }
-        );
-
-        setUnblockCode(""); // Clear the input field
-        showNotification(
-          "Paid unblock code applied successfully!",
-          "success",
-          5000
-        );
-      } else {
-        showNotification("Invalid or already used code.", "error", 5000);
-      }
-    } catch (error) {
-      console.error("Error validating paid unblock code:", error);
-      showNotification(
-        "Failed to validate code. Please try again.",
-        "error",
-        5000
-      );
-    }
   };
 
   const calculateStrokeDashoffset = () => {
@@ -314,48 +225,6 @@ const Popup = () => {
           >
             Free 5 Minutes Unblock
           </button>
-
-          {/* Paid Unblock UI */}
-          <div style={{ marginTop: "20px" }}>
-            <h3 style={{ fontSize: "14px", marginBottom: "10px" }}>
-              Paid Unblock (30 Minutes)
-            </h3>
-            <input
-              type="text"
-              value={unblockCode}
-              onChange={(e) => setUnblockCode(e.target.value)}
-              placeholder="Enter paid code"
-              style={{
-                padding: "10px",
-                width: "80%",
-                border: "1px solid #ccc",
-                borderRadius: "8px",
-                marginBottom: "10px",
-              }}
-              disabled={cooldownCountdown !== null && cooldownCountdown > 0}
-            />
-            <button
-              style={{
-                padding: "12px 20px",
-                backgroundColor: "#d72323",
-                color: "#fff",
-                border: "none",
-                borderRadius: "8px",
-                cursor: "pointer",
-                fontSize: "14px",
-              }}
-              onClick={validatePaidUnblockCode}
-              disabled={cooldownCountdown !== null && cooldownCountdown > 0}
-            >
-              Apply Code
-            </button>
-            {cooldownCountdown !== null && cooldownCountdown > 0 && (
-              <p style={{ color: "#d72323", marginTop: "10px" }}>
-                You are currently in a cooldown period. You can apply for a paid
-                unblock after: {formatTime(cooldownCountdown)}
-              </p>
-            )}
-          </div>
         </div>
       ) : (
         <div>
@@ -395,25 +264,6 @@ const Popup = () => {
       )}
 
       <div
-        id="notification"
-        style={{
-          marginBottom: "10px",
-          padding: "10px",
-          color: notificationType === "success" ? "#004400" : "#ff0000",
-          backgroundColor:
-            notificationType === "success" ? "#ccffcc" : "#ffe5e5",
-          border: `1px solid ${
-            notificationType === "success" ? "#004400" : "#a00"
-          }`,
-          borderRadius: "5px",
-          fontSize: "14px",
-          display: notificationMessage ? "block" : "none",
-        }}
-      >
-        {notificationMessage}
-      </div>
-
-      <div
         style={{
           marginTop: "20px",
           display: "flex",
@@ -421,21 +271,13 @@ const Popup = () => {
           fontSize: "14px",
         }}
       >
-        {/* <a
+        <a
           href="https://ko-fi.com/sureodds"
           target="_blank"
           rel="noopener noreferrer"
           style={{ color: "#007AFF", textDecoration: "none" }}
         >
           Donate
-        </a> */}
-        <a
-          href="https://buy.stripe.com/fZeeYn4zyc9E5jy8ww"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ color: "#d72323", textDecoration: "none" }}
-        >
-          Purchase 30 Min Unblock ($5)
         </a>
       </div>
     </div>

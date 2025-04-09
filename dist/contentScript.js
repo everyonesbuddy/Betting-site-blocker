@@ -1,11 +1,2 @@
-/******/ (() => { // webpackBootstrap
-/*!********************************************!*\
-  !*** ./src/contentScript/contentScript.ts ***!
-  \********************************************/
-chrome.runtime.sendMessage("From the Content Script", (response) => {
-    console.log(response);
-});
-
-/******/ })()
-;
+chrome.runtime.sendMessage("From the Content Script",(e=>{console.log(e)}));
 //# sourceMappingURL=contentScript.js.map
